@@ -1,0 +1,9 @@
+#feature.impl2.enabled: true
+spring:
+  application.name: ff
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery.instanceId: ${spring.application.name}:v2:${random.value}
+      config.enabled: true
