@@ -26,8 +26,16 @@ public class DemoServiceImpl2 implements DemoService {
 		output.setSubtraction( input.getA().subtract( input.getB() ) );
 		output.setMultiplication( input.getA().multiply( input.getB() ) );
 
-		if( input.getB() != BigDecimal.ZERO )
-			output.setDivision( input.getA().divide( input.getB() ) );
+		if( 0 != input.getB().compareTo(BigDecimal.ZERO) ) { // check if B is no ZERO
+			try {
+				output.setDivision( input.getA().divide( input.getB() ) );
+			} catch (Exception e ) {
+				logger.info(e.getLocalizedMessage());
+				double div = input.getA().doubleValue() / input.getB().doubleValue();
+				output.setDivision(BigDecimal.valueOf(div));
+			}
+//			output.setDivision( input.getA().divide( input.getB() ) ); //Has a bug
+		}
 
 		return output;
 	}

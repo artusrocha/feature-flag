@@ -7,6 +7,7 @@ import org.acme.ff.dto.OutputDto;
 import org.acme.ff.service.DemoService;
 import org.acme.ff.service.DemoServiceImpl;
 import org.acme.ff.service.DemoServiceImpl2;
+import org.ff4j.FF4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,11 @@ public class FeatureFlagsDemoWebApi {
 	@Autowired
 	private DemoServiceImpl2 service2;
 
-	@Value("${feature.impl2.enabled:false}")
-	private boolean impl2enabled;
+	@Autowired
+	private FF4j ff4j;
 
 	private DemoService getService() {
-		return impl2enabled ? service2 : service;
+		return ff4j.check("impl2enabled") ? service2 : service;
 	}
 
 	@GetMapping("{a}/{b}")
