@@ -26,18 +26,23 @@ public class DemoServiceImpl2 implements DemoService {
 		output.setSubtraction( input.getA().subtract( input.getB() ) );
 		output.setMultiplication( input.getA().multiply( input.getB() ) );
 
-		if( 0 != input.getB().compareTo(BigDecimal.ZERO) ) { // check if B is no ZERO
-			try {
-				output.setDivision( input.getA().divide( input.getB() ) );
-			} catch (Exception e ) {
-				logger.info(e.getLocalizedMessage());
-				double div = input.getA().doubleValue() / input.getB().doubleValue();
-				output.setDivision(BigDecimal.valueOf(div));
-			}
-//			output.setDivision( input.getA().divide( input.getB() ) ); //Has a bug
-		}
+		output.setDivision( division( input.getA(), input.getB() ) );
 
 		return output;
+	}
+
+	private BigDecimal division(BigDecimal a, BigDecimal b) {
+		if( 0 == b.compareTo(BigDecimal.ZERO) ) // check if B is no ZERO
+			return null;
+
+		try {
+			return a.divide( b );
+		} catch (Exception e ) {
+			logger.info(e.getLocalizedMessage());
+			double div = a.doubleValue() / b.doubleValue();
+			return BigDecimal.valueOf(div);
+		}
+//		output.setDivision( input.getA().divide( input.getB() ) ); //Has a bug
 	}
 	
 }
